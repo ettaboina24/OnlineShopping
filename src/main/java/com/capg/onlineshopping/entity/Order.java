@@ -7,77 +7,115 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+
 @Entity
-@Table(name="orders")
+@Table(name="order_new")
 public class Order {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
-	@ManyToOne
-	@JoinColumn(name="customer_id",referencedColumnName = "userId")
-	private User customer;
-	@Column(name="order_date")
-	private LocalDateTime orderDate;
-	private OrderStatus orderStatus;
-	@OneToOne
-	@JoinColumn(name="cart_id",referencedColumnName = "cartId")
-	private Cart cart;
 	
-	public enum OrderStatus
-	{
-		PENDING,
-		PROCESSING,
-		COMPLETED,
-		CANCELLED
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="order_id")
+	private int orderId;
+	@Column(name="customer_name")
+	private String customerName;
+	@Column(name="product_id")
+	private int productId;
+	@Column(name="product_name")
+	private String productName;
+	@Column(name="quantity")
+	private int quantity;
+	@Column(name="amount")
+	private String amount;
+	@Column(name="order_date_time")
+	private LocalDateTime orderDateTime;
+	@Column(name="order_status")
+	private String orderStatus;
+	
+	public Order() {
 	}
 
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public User getCustomer() {
-		return customer;
-	}
-
-	public void setCustomer(User customer) {
-		this.customer = customer;
-	}
-
-	public LocalDateTime getOrderDate() {
-		return orderDate;
-	}
-
-	public void setOrderDate(LocalDateTime orderDate) {
-		this.orderDate = orderDate;
-	}
-
-	public OrderStatus getOrderStatus() {
-		return orderStatus;
-	}
-
-	public void setOrderStatus(OrderStatus orderStatus) {
+	public Order(int orderId, String customerName, int productId, String productName, int quantity, String amount,
+			LocalDateTime orderDateTime, String orderStatus) {
+		this.orderId = orderId;
+		this.customerName = customerName;
+		this.productId = productId;
+		this.productName = productName;
+		this.quantity = quantity;
+		this.amount = amount;
+		this.orderDateTime = orderDateTime;
 		this.orderStatus = orderStatus;
 	}
 
-	public Cart getCart() {
-		return cart;
+	public int getOrderId() {
+		return orderId;
 	}
 
-	public void setCart(Cart cart) {
-		this.cart = cart;
-	}
-	
-	
-	
-	
+	public void setOrderId(int orderId) {
+		this.orderId = orderId;
 	}
 
+	public String getCustomerName() {
+		return customerName;
+	}
 
+	public void setCustomerName(String customerName) {
+		this.customerName = customerName;
+	}
+	
+	public int getProductId() {
+		return productId;
+	}
+
+	public void setProductId(int productId) {
+		this.productId = productId;
+	}
+
+	public String getProductName() {
+		return productName;
+	}
+
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
+
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+
+	public String getAmount() {
+		return amount;
+	}
+
+	public void setAmount(String amount) {
+		this.amount = amount;
+	}
+
+	public LocalDateTime getOrderDateTime() {
+		return orderDateTime;
+	}
+
+	public void setOrderDateTime(LocalDateTime orderDateTime) {
+		this.orderDateTime = orderDateTime;
+	}
+
+	public String getOrderStatus() {
+		return orderStatus;
+	}
+
+	public void setOrderStatus(String orderStatus) {
+		this.orderStatus = orderStatus;
+	}
+
+	@Override
+	public String toString() {
+		return "OrderNew [orderId=" + orderId + ", customerName=" + customerName + ", productId=" + productId
+				+ ", productName=" + productName + ", quantity=" + quantity + ", amount=" + amount + ", orderDateTime="
+				+ orderDateTime + ", orderStatus=" + orderStatus + "]";
+	}
+	
+}

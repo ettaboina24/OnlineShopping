@@ -1,7 +1,5 @@
 package com.capg.onlineshopping.entity;
 
-import org.hibernate.annotations.ManyToAny;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.CascadeType;
@@ -24,7 +22,7 @@ public class Product {
 	private int quantity;
 	private String brand;
 	private String description;
-	private String price;
+	private int price;
 	
 	@ManyToOne(cascade=CascadeType.ALL,fetch = FetchType.EAGER)
 	@JoinColumn(name="category_id",referencedColumnName = "category_id")
@@ -79,11 +77,13 @@ public class Product {
 		this.category = category;
 	}
 
-	public String getPrice() {
+	
+
+	public int getPrice() {
 		return price;
 	}
 
-	public void setPrice(String price) {
+	public void setPrice(int price) {
 		this.price = price;
 	}
 
@@ -92,10 +92,6 @@ public class Product {
 		return "Product [productId=" + productId + ", name=" + name + ", quantity=" + quantity + ", brand=" + brand
 				+ ", description=" + description + ", price=" + price + ", category=" + category.getId() + "]";
 	}
-	
-	
-	
-	
-	
 
+	
 }

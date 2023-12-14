@@ -1,23 +1,24 @@
 package com.capg.onlineshopping.service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.capg.onlineshopping.dto.OrderDto;
 import com.capg.onlineshopping.entity.Cart;
-import com.capg.onlineshopping.entity.OrderNew;
+import com.capg.onlineshopping.entity.Order;
 import com.capg.onlineshopping.entity.Product;
 import com.capg.onlineshopping.repository.CartRepository;
-import com.capg.onlineshopping.repository.OrderNewRepository;
+import com.capg.onlineshopping.repository.OrderRepository;
 import com.capg.onlineshopping.repository.ProductRepository;
 
 @Service
-public class OrderNewService {
+public class OrderServiceImpl implements OrderService {
 
 	@Autowired
-	OrderNewRepository orderNewRepository;
+	OrderRepository orderNewRepository;
 	
 	@Autowired
 	CartRepository cartRepository;
@@ -25,18 +26,18 @@ public class OrderNewService {
 	@Autowired
 	ProductRepository productRepository;
 	
-	
+	@Override
 	public String addOrder(OrderDto orderDto) {
 //		System.out.println(orderNew);
 		Cart cart=cartRepository.findById(orderDto.getCartId()).get();
 		for(Product product:cart.getProducts()) {
-			OrderNew order= new OrderNew();
+			Order order= new Order();
 			order.setCustomerName(cart.getCustomer().getUserName());
 			order.setProductId(product.getProductId());
 			order.setProductName(product.getName());
 			order.setQuantity(1);
 			product.setQuantity(product.getQuantity()-1);
-			order.setAmount(Integer.toString(1 * Integer.parseInt(product.getPrice())));
+			order.setAmount(Integer.toString(1 * (product.getPrice())));
 			order.setOrderDateTime(LocalDateTime.now());
 			order.setOrderStatus("Completed");
 			orderNewRepository.save(order);
@@ -44,8 +45,9 @@ public class OrderNewService {
 		return "Order Placed Successfully";
 	}
 	
+	@Override
 	public String cancelOrder(int orderId) {
-		OrderNew orderNew = orderNewRepository.findById(orderId).get();
+		Order orderNew = orderNewRepository.findById(orderId).get();
 		orderNew.setOrderStatus("Cancelled");
 		orderNewRepository.save(orderNew);
 		Product product = productRepository.findById(orderNew.getProductId()).get();
@@ -53,4 +55,11 @@ public class OrderNewService {
 		productRepository.save(product);
 		return "Order Cancelled Successfully";
 	}
+	
+	
+	@Override
+	 public List<Order> getAllOrders()
+	 {
+		 return orderNewRepository.findAll();
+	 }
 }

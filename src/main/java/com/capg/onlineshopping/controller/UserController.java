@@ -17,35 +17,34 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.capg.onlineshopping.dto.OrderDto;
 import com.capg.onlineshopping.entity.Cart;
+
 import com.capg.onlineshopping.entity.Order;
-import com.capg.onlineshopping.entity.OrderNew;
 import com.capg.onlineshopping.entity.Product;
 import com.capg.onlineshopping.entity.User;
 import com.capg.onlineshopping.exceptions.InsufficientProductQuantityException;
 import com.capg.onlineshopping.exceptions.InvalidEmailException;
 import com.capg.onlineshopping.exceptions.InvalidPasswordException;
 import com.capg.onlineshopping.exceptions.UserAlreadyExistSException;
-import com.capg.onlineshopping.service.CartService;
-import com.capg.onlineshopping.service.OrderNewService;
-import com.capg.onlineshopping.service.OrderService;
-import com.capg.onlineshopping.service.ProductService;
-import com.capg.onlineshopping.service.UserService;
+import com.capg.onlineshopping.service.CartServiceImpl;
+import com.capg.onlineshopping.service.OrderServiceImpl;
+
+import com.capg.onlineshopping.service.ProductServiceImpl;
+import com.capg.onlineshopping.service.UserServiceImpl;
 
 @RestController
 @RequestMapping("api/v1/user")
 public class UserController {
 	
 	@Autowired
-	private UserService userService;
+	private UserServiceImpl userService;
 	@Autowired
-	private CartService cartService;
-	@Autowired
-	private OrderService orderService;
-	@Autowired
-	private ProductService productService;
+	private CartServiceImpl cartService;
 	
 	@Autowired
-	OrderNewService orderNewService;
+	private ProductServiceImpl productService;
+	
+	@Autowired
+	OrderServiceImpl orderNewService;
 	
 	
 	@PostMapping("/registerUser")
@@ -66,11 +65,11 @@ public class UserController {
 //		return new ResponseEntity<User>(userService.checkUserLogin(user),HttpStatus.OK);
 //	}
 	
-	@GetMapping("/get-all-users")
-	public ResponseEntity<List<User>> getAllUsers()
-	{
-		return new ResponseEntity<>(userService.fetchUsers(),HttpStatus.OK);
-	}
+//	@GetMapping("/get-all-users")
+//	public ResponseEntity<List<User>> getAllUsers()
+//	{
+//		return new ResponseEntity<>(userService.fetchUsers(),HttpStatus.OK);
+//	}
 	@GetMapping("/get-all-products")
 	public ResponseEntity<List<Product>> getProducts()
 	{
@@ -123,27 +122,27 @@ public class UserController {
 		 return new ResponseEntity<String>(userService.deleteUserById(id),HttpStatus.OK);
 	       
 	    }
-	 @PostMapping("/addcart")
-		public ResponseEntity<Cart> addCart(@RequestBody Cart cart)
-		{
-			return new ResponseEntity<Cart>(cartService.addCart(cart), HttpStatus.OK);
-		}
-	    @PostMapping("/placingorder")
-		public ResponseEntity<Order> palcesOrder(@RequestBody Order orders) throws InsufficientProductQuantityException
-		{
-			return new ResponseEntity<Order>(orderService.placeOrder(orders),HttpStatus.OK);
-		}	
+//	 @PostMapping("/addcart")
+//		public ResponseEntity<Cart> addCart(@RequestBody Cart cart)
+//		{
+//			return new ResponseEntity<Cart>(cartService.addCart(cart), HttpStatus.OK);
+//		}
+//	    @PostMapping("/placingorder")
+//		public ResponseEntity<Order> palcesOrder(@RequestBody Order orders) throws InsufficientProductQuantityException
+//		{
+//			return new ResponseEntity<Order>(orderService.placeOrder(orders),HttpStatus.OK);
+//		}	
 	 
 	 
-	    @RequestMapping(value = "/remove-product/{cartId}/{productId}", method = RequestMethod.DELETE)
-	    public ResponseEntity<Cart> removeProductFromCart(@PathVariable int cartId, @PathVariable int productId) {
-	        Cart updatedCart = cartService.removeProductFromCart(cartId, productId);
-	        if (updatedCart != null) {
-	            return new ResponseEntity<>(updatedCart, HttpStatus.OK);
-	        } else {
-	            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-	        }
-	    }
+//	    @RequestMapping(value = "/remove-product/{cartId}/{productId}", method = RequestMethod.DELETE)
+//	    public ResponseEntity<Cart> removeProductFromCart(@PathVariable int cartId, @PathVariable int productId) {
+//	        Cart updatedCart = cartService.removeProductFromCart(cartId, productId);
+//	        if (updatedCart != null) {
+//	            return new ResponseEntity<>(updatedCart, HttpStatus.OK);
+//	        } else {
+//	            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//	        }
+//	    }
 //	    @PostMapping("/cancelorder/{orderId}")
 //	    public ResponseEntity<Order> cancelOrder(@PathVariable("orderId") int orderId )
 //	    {

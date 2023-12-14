@@ -20,15 +20,15 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 //	Optional<Product> findByProductIdAndCategory(int productId,int categoryId);
 
 	
-	@Query(value="select * from product where cast(price AS INTEGER) < :userPrice",nativeQuery=true)
+	@Query(value="select * from product where price  < :userPrice",nativeQuery=true)
 	List<Product> findByPriceLessThan(@Param("userPrice") int price);
 	
 	
-	@Query(value="select * from product where cast(price As INTEGER) > :userPrice",nativeQuery=true)
+	@Query(value="select * from product where price > :userPrice",nativeQuery=true)
    List<Product> findByGreaterThan(@Param("userPrice") int price);
 	
 	
-	 @Query(value="select * from product  where cast(price As INTEGER) between :minPrice and :maxPrice",nativeQuery=true)
+	 @Query(value="select * from product  where price  between :minPrice and :maxPrice",nativeQuery=true)
 	    List<Product> findProductsByPriceRange(int minPrice, int maxPrice);
 	 
 	

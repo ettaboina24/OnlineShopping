@@ -11,16 +11,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.capg.onlineshopping.dto.OrderDto;
-import com.capg.onlineshopping.service.OrderNewService;
-import com.capg.onlineshopping.service.ProductService;
+import com.capg.onlineshopping.service.OrderServiceImpl;
+import com.capg.onlineshopping.service.ProductServiceImpl;
 
 @RestController
 @RequestMapping("api/v1/user")
 public class OrderController {
 	@Autowired
-	private ProductService productService;
+	private ProductServiceImpl productService;
 	@Autowired
-	private OrderNewService orderNewService;
+	private OrderServiceImpl orderNewService;
 	
 	
 	@PostMapping("/order-new")

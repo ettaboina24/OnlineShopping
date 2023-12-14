@@ -11,20 +11,22 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.capg.onlineshopping.entity.Product;
 import com.capg.onlineshopping.exceptions.IdNotFoundException;
 import com.capg.onlineshopping.exceptions.ProdcutIdNotFoundException;
-import com.capg.onlineshopping.service.CategoryService;
-import com.capg.onlineshopping.service.ProductService;
+import com.capg.onlineshopping.service.CategoryServiceImpl;
+import com.capg.onlineshopping.service.ProductServiceImpl;
 
 @RestController
+@RequestMapping("api/v1/admin")
 public class ProductController {
 	@Autowired
-	private CategoryService categoryService;
+	private CategoryServiceImpl categoryService;
 	@Autowired
-	private ProductService productService;
+	private ProductServiceImpl productService;
 	
 	@PostMapping("/addProduct")
 	public ResponseEntity<Product> createProduct(@RequestBody Product product) throws IdNotFoundException {

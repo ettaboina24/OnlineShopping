@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -23,8 +25,9 @@ public class Category {
 	private int id;
 	private String name;
 
-	@OneToMany(mappedBy="category",cascade = CascadeType.ALL,fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="category",cascade = CascadeType.ALL,fetch=FetchType.LAZY)
 	@JsonManagedReference(value="category_id")
+	@JsonProperty(access=Access.WRITE_ONLY)
 	private List<Product> products =new ArrayList<>();
 
 	public int getId() {
@@ -55,5 +58,8 @@ public class Category {
 	public String toString() {
 		return "Category [id=" + id + ", name=" + name + ", products=" + products + "]";
 	}
+
+	
+	
 	
 }
