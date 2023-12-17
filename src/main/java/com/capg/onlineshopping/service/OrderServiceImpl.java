@@ -30,7 +30,8 @@ public class OrderServiceImpl implements OrderService {
 	public String addOrder(OrderDto orderDto) {
 //		System.out.println(orderNew);
 		Cart cart=cartRepository.findById(orderDto.getCartId()).get();
-		for(Product product:cart.getProducts()) {
+		for(Product product:cart.getProducts()) 
+		{
 			Order order= new Order();
 			order.setCustomerName(cart.getCustomer().getUserName());
 			order.setProductId(product.getProductId());

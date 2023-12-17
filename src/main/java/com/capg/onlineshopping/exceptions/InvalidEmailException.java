@@ -1,13 +1,9 @@
 package com.capg.onlineshopping.exceptions;
 
 public class InvalidEmailException extends RuntimeException{
-	String msg;
-	
-
-	
-	
+	String msg;	
 	public InvalidEmailException(String msg) {
-		super();
+		super(msg);
 		this.msg = msg;
 	}
 

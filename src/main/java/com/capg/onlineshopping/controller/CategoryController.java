@@ -29,11 +29,10 @@ public class CategoryController {
 	@Autowired
 	private ProductServiceImpl productService;
 	
-	@PostMapping("/addcategory")
+	@PostMapping("/add-category")
 	public ResponseEntity<Category> createCategory(@RequestBody Category category)throws CategoryAlreadyExistsException 
-			
 	{
-		return new ResponseEntity<Category>(categoryService.addCategory(category), HttpStatus.OK);
+		return new ResponseEntity<Category>(categoryService.createCategory(category), HttpStatus.OK);
 	}
 	
 	@GetMapping("/get-all-categories")
@@ -44,7 +43,7 @@ public class CategoryController {
 	public ResponseEntity<String> deleteCategory(@PathVariable("categoryId") int cid) throws IdNotFoundException {
 		return new ResponseEntity<String>(categoryService.deleteCategoryById(cid), HttpStatus.OK);
 	}
-	@PutMapping("/updatecategory/{id}")
+	@PutMapping("/update-category/{id}")
 	public ResponseEntity<Category> updateCategory(@PathVariable(name="id")int id,@RequestBody Category category)
 	{
 		return new ResponseEntity<Category>(categoryService.updateCategoryById(id, category),HttpStatus.OK);

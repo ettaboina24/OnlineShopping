@@ -15,69 +15,62 @@ import com.capg.onlineshopping.utility.AppConstant;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
-	
-	
+
 	@Autowired
 	private CategoryRepository categoryRepository;
-	
+
 	@Override
-	public Category addCategory(Category category)
-	{
+	public Category addCategory(Category category) {
 		return categoryRepository.save(category);
-		
+
 	}
-	
+
 	@Override
-	public Category createCategory(Category category) throws CategoryAlreadyExistsException{
-		 
-		Category existingCategory = categoryRepository.findByName(category.getName().toLowerCase());
+	public Category createCategory(Category category) throws CategoryAlreadyExistsException {
 
-		     if(existingCategory != null) 
-		     {
+		Category existingCategory = categoryRepository.findByNameIgnoreCase(category.getName());
 
-			    throw new CategoryAlreadyExistsException(AppConstant.CATEGORY_NAME_ALREADY_EXITS_INFO);
+		if (existingCategory != null) {
 
-		     }
+			throw new CategoryAlreadyExistsException("CATEGORY_ALREADY_EXITS");
 
-		          category.setName(category.getName().toLowerCase());
+		}
+
+		category.setName(category.getName().toLowerCase());
 
 		return categoryRepository.save(category);
 
 	}
-    
+
 	@Override
 	public List<Category> fetchCategory() {
-		
+
 		return categoryRepository.findAll();
 //		 List<Category> categories = categoryRepository.findAll();
 //		    categories.forEach(category -> category.setProducts(Collections.emptyList()));
 //		    return categories;
-		}
-	
-    
+	}
+
 	@Override
 	public String deleteCategoryById(int cid) {
-		String msg="";
-		if(categoryRepository.existsById(cid))
-		{
+		String msg = "";
+		if (categoryRepository.existsById(cid)) {
 			categoryRepository.deleteById(cid);
-			msg="Category Deleted Successfully";
-		}
-		else
-		{
+			msg = "Category Deleted Successfully";
+		} else {
 			throw new CategoryIdNotFoundException(AppConstant.CATEGORY_ID_NOT_FOUND_INFO);
 		}
 		return msg;
 	}
-	
-	//public Category fetchCategoryById(int cid) throws ID
-	
+
+	// public Category fetchCategoryById(int cid) throws ID
+
 	@Override
-	public Category updateCategoryById(int cid,Category category) throws IdNotFoundException{
-		 
+	public Category updateCategoryById(int cid, Category category) throws IdNotFoundException {
+
 		Category new_category = null;
 
-		if(categoryRepository.existsById(cid)) {
+		if (categoryRepository.existsById(cid)) {
 
 			new_category = categoryRepository.findById(cid).get();
 
@@ -93,6 +86,6 @@ public class CategoryServiceImpl implements CategoryService {
 
 		}
 		return new_category;
-}		
+	}
 
 }

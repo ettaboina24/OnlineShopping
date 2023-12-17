@@ -21,6 +21,7 @@ import com.capg.onlineshopping.entity.Cart;
 import com.capg.onlineshopping.entity.Order;
 import com.capg.onlineshopping.entity.Product;
 import com.capg.onlineshopping.entity.User;
+import com.capg.onlineshopping.exceptions.BrandNotFoundException;
 import com.capg.onlineshopping.exceptions.InsufficientProductQuantityException;
 import com.capg.onlineshopping.exceptions.InvalidEmailException;
 import com.capg.onlineshopping.exceptions.InvalidPasswordException;
@@ -47,7 +48,7 @@ public class UserController {
 	OrderServiceImpl orderNewService;
 	
 	
-	@PostMapping("/registerUser")
+	@PostMapping("/register-user")
 	public ResponseEntity<User> addUser(@RequestBody User user)throws UserAlreadyExistSException,InvalidPasswordException,InvalidEmailException
 	{
 		return new ResponseEntity<User>(userService.addUser(user),HttpStatus.OK);
@@ -76,6 +77,12 @@ public class UserController {
 		return new ResponseEntity<List<Product>>(productService.getAllProducts(),HttpStatus.OK);
 	}
 	
+	@GetMapping("/get-user-profile/{id}")
+	public ResponseEntity<User> getUserProfile(@PathVariable(name="id") int id)
+	{
+		return new ResponseEntity<>(userService.getUserProfileById(id),HttpStatus.OK);
+	}
+	
 	
 	@GetMapping("/product/priceLessThan/{price}")
 	public ResponseEntity<List<Product>> findByPriceLessThan(@PathVariable(name="price") int price)
@@ -98,7 +105,7 @@ public class UserController {
 	
 	
 	@GetMapping("/by-brand/{brandName}")
-	public ResponseEntity<List<Product>> searchByBrand(@PathVariable(name="brandName") String name)
+	public ResponseEntity<List<Product>> searchByBrand(@PathVariable(name="brandName") String name) throws BrandNotFoundException
 	{
 		return new ResponseEntity<List<Product>>(productService.searchByBrand(name),HttpStatus.OK);
 	}
@@ -116,47 +123,13 @@ public class UserController {
 		return new ResponseEntity<User>(userService.updateUserDetailAddress(id,user.getAddress()),HttpStatus.OK);
 	}
 	
-	 @DeleteMapping("/delete/{id}")
+	 @DeleteMapping("admin/delete/{id}")
 	    public ResponseEntity<String> deleteUserById(@PathVariable int id)
 	 {
 		 return new ResponseEntity<String>(userService.deleteUserById(id),HttpStatus.OK);
 	       
 	    }
-//	 @PostMapping("/addcart")
-//		public ResponseEntity<Cart> addCart(@RequestBody Cart cart)
-//		{
-//			return new ResponseEntity<Cart>(cartService.addCart(cart), HttpStatus.OK);
-//		}
-//	    @PostMapping("/placingorder")
-//		public ResponseEntity<Order> palcesOrder(@RequestBody Order orders) throws InsufficientProductQuantityException
-//		{
-//			return new ResponseEntity<Order>(orderService.placeOrder(orders),HttpStatus.OK);
-//		}	
-	 
-	 
-//	    @RequestMapping(value = "/remove-product/{cartId}/{productId}", method = RequestMethod.DELETE)
-//	    public ResponseEntity<Cart> removeProductFromCart(@PathVariable int cartId, @PathVariable int productId) {
-//	        Cart updatedCart = cartService.removeProductFromCart(cartId, productId);
-//	        if (updatedCart != null) {
-//	            return new ResponseEntity<>(updatedCart, HttpStatus.OK);
-//	        } else {
-//	            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//	        }
-//	    }
-//	    @PostMapping("/cancelorder/{orderId}")
-//	    public ResponseEntity<Order> cancelOrder(@PathVariable("orderId") int orderId )
-//	    {
-//	    	return new ResponseEntity<>(orderService.cancelOrder(orderId),HttpStatus.OK);
-//	    }
 
-//		@PostMapping("/order-new")
-//		public ResponseEntity<String> addOrder(@RequestBody OrderDto orderDto){
-//			return new ResponseEntity<String>(orderNewService.addOrder(orderDto),HttpStatus.OK);
-//		}
-//		
-//		@GetMapping("/cancel-order/{orderId}")
-//		public ResponseEntity<String> cancelOrder(@PathVariable("orderId") int orderId){
-//			return new ResponseEntity<String>(orderNewService.cancelOrder(orderId),HttpStatus.OK);
-//		}
+	 
 
 }

@@ -6,6 +6,7 @@ public class CategoryIdNotFoundException extends RuntimeException
      public  CategoryIdNotFoundException(String msg) {
 		// TODO Auto-generated constructor stub
     	 super(msg);
+    	 this.msg = msg;
 	}
      public String getMsg()
      {

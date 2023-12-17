@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.capg.onlineshopping.entity.Category;
 import com.capg.onlineshopping.entity.Product;
+import com.capg.onlineshopping.exceptions.BrandNotFoundException;
 import com.capg.onlineshopping.exceptions.CategoryIdNotFoundException;
 import com.capg.onlineshopping.exceptions.InsufficientProductQuantityException;
 import com.capg.onlineshopping.exceptions.ProdcutIdNotFoundException;
@@ -18,32 +19,39 @@ import com.capg.onlineshopping.utility.AppConstant;
 public class ProductServiceImpl implements ProductService {
 	@Autowired
 	private ProductRepository productRepository;
+
+	
 	@Autowired
 	private CategoryRepository categoryRepository;
     
 	@Override
-	public Product addProduct(Product product) throws CategoryIdNotFoundException{
-		Category category=null;
-		int category_id=product.getCategory().getId();
-		if(categoryRepository.existsById(category_id))
-		{
-			category = categoryRepository.findById(category_id).get();
-			product.setCategory(category);
-			return productRepository.save(product);
-			
-		}
-		throw new CategoryIdNotFoundException(AppConstant.CATEGORY_ID_NOT_FOUND_INFO);
-		
+	public Product addProduct(Product product) throws CategoryIdNotFoundException{	
+		 Category category = product.getCategory();
+
+		    if (category != null) 
+		    {
+		        int categoryId = category.getId();
+		        if (categoryRepository.existsById(categoryId)) 
+		        {
+		            category = categoryRepository.findById(categoryId).get();
+		            product.setCategory(category);
+		            return productRepository.save(product);
+		        }    
+		    }
+		    throw new CategoryIdNotFoundException(AppConstant.CATEGORY_ID_NOT_FOUND_INFO);
 	}
     
 	@Override
 	public List<Product> getAllProducts() {
 		
-		return productRepository.findAll();
+		List<Product> products = productRepository.findAll();
+		System.out.println(products);
+		System.out.println(products.size());
+		return products;
 	}
     
 	@Override
-	public Product updateProductById(int id, int price,int quantity) {
+	public Product updateProductById(int id, int price,int quantity) throws ProdcutIdNotFoundException {
 		Product productnew = null;
 		if(productRepository.existsById(id))
 		{
@@ -69,14 +77,20 @@ public class ProductServiceImpl implements ProductService {
 	
 	@Override
 	public List<Product> priceGreaterThan(int price)
-	{
+	{ 
 		return productRepository.findByGreaterThan(price);
 	}
 	
 	@Override
-	public List<Product> searchByBrand(String name)
+	public List<Product> searchByBrand(String name) throws BrandNotFoundException
 	{
-		return productRepository.findByBrand(name);
+		List<Product> products= productRepository.findByBrand(name);
+		if(products.isEmpty())
+		{
+			throw new BrandNotFoundException("BRAND_NOT_FOUND");
+			
+		}
+		return products;
 	}
 	
 	@Override
@@ -86,7 +100,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 	
 	@Override
-	public String deleteProductById(int pid,int cid) {
+	public String deleteProductById(int pid,int cid)throws ProdcutIdNotFoundException {
 		String msg="";
 		if(productRepository.existsById(pid))
 		{
@@ -103,22 +117,4 @@ public class ProductServiceImpl implements ProductService {
 		return msg;
 		
 	}
-	
-	
-//	public void updateProductQuantity(int productId, int orderedQuantity) throws InsufficientProductQuantityException {
-//        Product product = productRepository.findById(productId).orElse(null);
-//
-//        if (product != null) {
-//            int remainingQuantity = product.getQuantity() - orderedQuantity;
-//
-//            if (remainingQuantity >= 0) {
-//                product.setQuantity(remainingQuantity);
-//                productRepository.save(product);
-//            } else {
-//                // Handle insufficient quantity scenario according to your application's needs
-//                throw new InsufficientProductQuantityException("Insufficient quantity for product with ID: " + productId);
-//            }
-//        }
-//    }
-
 }

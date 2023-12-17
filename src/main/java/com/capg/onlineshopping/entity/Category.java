@@ -29,6 +29,14 @@ public class Category {
 	@JsonManagedReference(value="category_id")
 	@JsonProperty(access=Access.WRITE_ONLY)
 	private List<Product> products =new ArrayList<>();
+	public Category(int id, String name) {
+		this.id = id;
+		this.name = name;
+	}
+
+	public Category() {
+		// TODO Auto-generated constructor stub
+	}
 
 	public int getId() {
 		return id;

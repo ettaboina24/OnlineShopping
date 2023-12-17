@@ -1,10 +1,12 @@
 package com.capg.onlineshopping.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.capg.onlineshopping.dto.AdminDto;
 import com.capg.onlineshopping.entity.User;
 import com.capg.onlineshopping.exceptions.IdNotFoundException;
 import com.capg.onlineshopping.exceptions.InvalidEmailException;
@@ -35,7 +37,7 @@ public class UserServiceImpl implements UserService {
 			
 		if(!user.getEmail().matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$"))
 		{
-			throw new InvalidEmailException("EMAIL_CANNOT_BE_NULL");
+			throw new InvalidEmailException("INVALID_EMAIL");
 		}
 		if(!user.getPassword().matches("^[a-zA-Z0-9_@#]{8,14}$")) 
 		{
@@ -136,6 +138,36 @@ public class UserServiceImpl implements UserService {
 
 	        }
 	}
+	
+	public AdminDto getAdminDashboard(int userId) throws IdNotFoundException 
+	{
+	    if (userRepository.existsById(userId)) {
+	        User user = userRepository.findByUserId(userId);
+	        AdminDto adminDto = new AdminDto();
+
+	        if (user.getRole().equals("admin")) {
+	            adminDto.setUserId(user.getUserId());
+	        } else
+	        {
+	            throw new IdNotFoundException("Admin id not found");
+	        }
+	        return adminDto;
+	    }
+	    else
+	    {
+	        throw new IdNotFoundException("User id not found");
+	    }
+	}
+	
+	@Override
+	public User getUserProfileById(int userId) throws IdNotFoundException 
+	{
+      Optional<User> userProfileOptional = userRepository.findById(userId);
+	    return userProfileOptional.orElseThrow(() -> new IdNotFoundException("User Profile not found for ID: " + userId));
+	    
+   }
+	
+    
 }
 
 

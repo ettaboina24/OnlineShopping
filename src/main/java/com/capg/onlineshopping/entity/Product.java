@@ -28,6 +28,29 @@ public class Product {
 	@JoinColumn(name="category_id",referencedColumnName = "category_id")
 	@JsonBackReference(value="category_id")
 	private Category category;
+	public Product(int productId, String name, int quantity, String brand, String description, int price) {
+		this.productId = productId;
+		this.name = name;
+		this.quantity = quantity;
+		this.brand = brand;
+		this.description = description;
+		this.price = price;
+	}
+
+	
+	
+	public Product(int productId, String name, int quantity, String brand, String description, int price,
+			Category category) {
+		this.productId = productId;
+		this.name = name;
+		this.quantity = quantity;
+		this.brand = brand;
+		this.description = description;
+		this.price = price;
+		this.category = category;
+	}
+
+
 
 	public int getProductId() {
 		return productId;
@@ -92,6 +115,13 @@ public class Product {
 		return "Product [productId=" + productId + ", name=" + name + ", quantity=" + quantity + ", brand=" + brand
 				+ ", description=" + description + ", price=" + price + ", category=" + category.getId() + "]";
 	}
+
+
+
+	public Product() 
+	{
+	}
+	
 
 	
 }

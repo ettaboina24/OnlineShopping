@@ -14,10 +14,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.capg.onlineshopping.dto.OrderDto;
+import com.capg.onlineshopping.entity.Order;
 import com.capg.onlineshopping.entity.Product;
 import com.capg.onlineshopping.exceptions.IdNotFoundException;
 import com.capg.onlineshopping.exceptions.ProdcutIdNotFoundException;
 import com.capg.onlineshopping.service.CategoryServiceImpl;
+import com.capg.onlineshopping.service.OrderServiceImpl;
 import com.capg.onlineshopping.service.ProductServiceImpl;
 
 @RestController
@@ -27,6 +30,8 @@ public class ProductController {
 	private CategoryServiceImpl categoryService;
 	@Autowired
 	private ProductServiceImpl productService;
+	@Autowired
+	private OrderServiceImpl orderServiceImpl;
 	
 	@PostMapping("/addProduct")
 	public ResponseEntity<Product> createProduct(@RequestBody Product product) throws IdNotFoundException {
@@ -37,8 +42,8 @@ public class ProductController {
 	{
 		return new ResponseEntity<List<Product>>(productService.getAllProducts(),HttpStatus.OK);
 	}
-	@PutMapping("/updateproduct/{id}")
-	public ResponseEntity<Product> upadteProductBasedOnId(@PathVariable(name="id")int id,@RequestBody Product product)
+	@PutMapping("/update-product/{id}")
+	public ResponseEntity<Product> upadteProductBasedOnId(@PathVariable(name="id")int id,@RequestBody Product product) throws ProdcutIdNotFoundException
 	{
 		return new ResponseEntity<Product>(productService.updateProductById(id,product.getPrice(),product.getQuantity()),HttpStatus.OK);
 	}
@@ -50,12 +55,18 @@ public class ProductController {
 //	}
 //	
 	
-	@DeleteMapping("/deleteproduct/{id}/{cid}")
+	@DeleteMapping("/delete-product/{id}/{cid}")
 	public ResponseEntity<String> deleteProductById(@PathVariable(name="id") int id,@PathVariable(name="cid")int cid) throws ProdcutIdNotFoundException 
 	{
 		productService.deleteProductById(id, cid);
 		return new ResponseEntity<String>("deleted",HttpStatus.OK);
 	}
+	
+//	@GetMapping("get-all-orders")
+//	public ResponseEntity<List<Order>> getAllOrders()
+//	{
+//		return new ResponseEntity<List<Order>>(orderServiceImpl.getAllOrders(),HttpStatus.OK);
+//	}
 	
 
 }

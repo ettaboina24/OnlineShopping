@@ -3,6 +3,7 @@ package com.capg.onlineshopping.service;
 import java.util.List;
 
 import com.capg.onlineshopping.entity.User;
+import com.capg.onlineshopping.exceptions.IdNotFoundException;
 import com.capg.onlineshopping.exceptions.InvalidEmailException;
 import com.capg.onlineshopping.exceptions.InvalidPasswordException;
 import com.capg.onlineshopping.exceptions.UserAlreadyExistSException;
@@ -18,5 +19,5 @@ public interface UserService {
 	public User checkUserLogin(User user) throws UserNotFoundException;
 	public String userLogin(String email, String password) throws InvalidEmailException, InvalidPasswordException;
 	
-
+	public User getUserProfileById(int userId) throws IdNotFoundException;
 }

@@ -104,6 +104,16 @@ public class GlobalExceptionalHandler {
 	errorInfo.setLocalDateTime(LocalDateTime.now());
 	return new ResponseEntity<ErrorInfo>(errorInfo,HttpStatus.BAD_REQUEST);
 	}
+	@ExceptionHandler(BrandNotFoundException.class)
+	public ResponseEntity<ErrorInfo> quantityExists(BrandNotFoundException brandNotFoundException)
+	{
+	ErrorInfo errorInfo = new ErrorInfo();
+	errorInfo.setErrorMessage(brandNotFoundException.getMsg());
+	errorInfo.setStatus(HttpStatus.BAD_REQUEST.toString());
+	errorInfo.setLocalDateTime(LocalDateTime.now());
+	return new ResponseEntity<ErrorInfo>(errorInfo,HttpStatus.BAD_REQUEST);
+	}
+	
 	
 	
 

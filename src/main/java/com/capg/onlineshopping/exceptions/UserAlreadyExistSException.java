@@ -6,6 +6,7 @@ public class UserAlreadyExistSException extends RuntimeException {
 	public UserAlreadyExistSException(String msg)
 	{
 		super(msg);
+		this.msg = msg;
 	}
 	 public String getMsg()
 	    {

@@ -5,6 +5,7 @@ public class InsufficientProductQuantityException extends Exception {
 	public InsufficientProductQuantityException(String msg)
 	{
 		super(msg);
+		this.msg = msg;
 	}
 	public String getMsg() {
 		return msg;

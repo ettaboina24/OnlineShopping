@@ -5,6 +5,7 @@ public class InvalidPasswordException extends RuntimeException{
 	public InvalidPasswordException(String msg)
 	{
 		super(msg);
+		this.msg = msg;
 	}
 	public String getMsg()
     {
